@@ -7,7 +7,9 @@ package com.atguigu.yygh.hosp.controller;
  * @create: 2021-03-22 22:31
  */
 
+import com.atguigu.yygh.common.exception.YyghException;
 import com.atguigu.yygh.common.result.Result;
+import com.atguigu.yygh.common.result.ResultCodeEnum;
 import com.atguigu.yygh.common.utils.MD5;
 import com.atguigu.yygh.hosp.service.HospitalSetServicTe;
 import com.atguigu.yygh.model.hosp.HospitalSet;
@@ -23,6 +25,7 @@ public class HospitalSetController {
     @Autowired
     private HospitalSetServicTe hospitalSetService;
     @GetMapping("/findAll")
+    @CrossOrigin
     public Result findAll(){
         List<HospitalSet> list = hospitalSetService.list();
         return Result.ok(list);
@@ -41,6 +44,11 @@ public class HospitalSetController {
     }
     @GetMapping("/getHospitalById/{id}")
     public Result getHospitalById(@PathVariable(value = "id") String id){
+        try {
+            int a = 10 / 0;
+        }catch (Exception e){
+            throw new YyghException(ResultCodeEnum.SERVICE_ERROR);
+        }
         HospitalSet hospitalSet = hospitalSetService.getById(id);
         return Result.ok(hospitalSet);
     }

@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(YyghException.class)
     @ResponseBody
     public Result error(YyghException e) {
-        e.printStackTrace();
-        return Result.fail();
+        System.out.println(e.getCode()+"---"+e.getMessage());
+        return Result.build(e.getCode(),e.getMessage());
     }
 }
