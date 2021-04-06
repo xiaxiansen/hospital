@@ -1,6 +1,7 @@
 package com.atguigu.yygh.cmn.service.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.atguigu.yygh.cmn.listener.DictListener;
 import com.atguigu.yygh.cmn.mapper.DictMapper;
 import com.atguigu.yygh.cmn.service.DictService;
 import com.atguigu.yygh.model.cmn.Dict;
@@ -10,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -65,6 +67,16 @@ public class DictServiceImpl  implements DictService {
         }
         return dictList;
     }
+
+    @Override
+    public void importDicData(MultipartFile file) {
+        try {
+            EasyExcel.read(file.getInputStream(),DictEeVo.class,new DictListener(dictMapper)).sheet().doRead();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //判断id下面是否有子节点
     private boolean isChildren(Long id) {
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
